@@ -25,7 +25,6 @@ func Permutations(n int64, r int64) (p int64, err error) {
 	}
 
 	if err = checkNonnegativeInteger("checking parameter r", r); err != nil {
-
 		return
 	}
 
@@ -44,39 +43,21 @@ func Permutations(n int64, r int64) (p int64, err error) {
 		return
 	}
 
-	dividends := make([]int64, 0)
-	dividers := make([]int64, 0)
+	p = func() (p int64) {
 
-	for i := int64(n); i > 0; i-- {
-		dividends = append(dividends, i)
-	}
+		dividends := make([]int64, 0)
 
-	for i := int64(n - r); i > 0; i-- {
-		dividers = append(dividers, i)
-	}
+		dividerMax := n - r
 
-	reducedDividends := make([]int64, 0)
-
-	for _, dividend := range dividends {
-		contained := false
-		for _, divider := range dividers {
-			if divider == dividend {
-				contained = true
-				break
-			}
+		for i := int64(n); i > dividerMax; i-- {
+			dividends = append(dividends, i)
 		}
 
-		if !contained {
-			reducedDividends = append(reducedDividends, dividend)
+		p = 1
+		for _, dividend := range dividends {
+			p *= dividend
 		}
-
-	}
-
-	p = 1
-	for _, d := range reducedDividends {
-		p *= d
-	}
-
+		return
+	}()
 	return
-
 }
