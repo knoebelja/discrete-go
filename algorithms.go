@@ -2,13 +2,11 @@ package discrete
 
 import (
 	"fmt"
-
-	"github.com/rs/zerolog/log"
 )
 
+// Factorial calcultes n! which equals 1 * 2 * 3 * ... * n
 func Factorial(n int64) (f int64, err error) {
-	if err = checkNonnegativeInteger(n); err != nil {
-		err = fmt.Errorf("error checking parameter n: %s", err.Error())
+	if err = checkNonnegativeInteger("checking parameter n", n); err != nil {
 		return
 	}
 
@@ -20,22 +18,19 @@ func Factorial(n int64) (f int64, err error) {
 	return
 }
 
+// Permutations calcutes p permutations of n objects, taken r at a time: n! / (n - r)!
 func Permutations(n int64, r int64) (p int64, err error) {
-	if err = checkNonnegativeInteger(n); err != nil {
-		err = fmt.Errorf("error checking parameter n: %s", err.Error())
-		log.Err(err)
+	if err = checkNonnegativeInteger("checking parameter n", n); err != nil {
 		return
 	}
 
-	if err = checkNonnegativeInteger(r); err != nil {
-		err = fmt.Errorf("error checking parameter r: %s", err.Error())
-		log.Err(err)
+	if err = checkNonnegativeInteger("checking parameter r", r); err != nil {
+
 		return
 	}
 
 	if r > n {
-		err = fmt.Errorf("error checking paramters: n{%d} must be greater than r{%d}", n, r)
-		log.Err(err)
+		err = fmt.Errorf("comparing parameters: n{%d} must be greater than r{%d}", n, r)
 		return
 	}
 
