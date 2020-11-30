@@ -38,26 +38,22 @@ func Permutations(n int64, r int64) (p int64, err error) {
 		return
 	}
 
-	if n-r == 0 || n-r == 1 {
+	dividerMax := n - r
+	if dividerMax == 0 || dividerMax == 1 {
 		p, err = Factorial(n)
 		return
 	}
 
-	p = func() (p int64) {
+	dividends := make([]int64, 0)
 
-		dividends := make([]int64, 0)
+	for i := int64(n); i > dividerMax; i-- {
+		dividends = append(dividends, i)
+	}
 
-		dividerMax := n - r
+	p = 1
+	for _, dividend := range dividends {
+		p *= dividend
+	}
 
-		for i := int64(n); i > dividerMax; i-- {
-			dividends = append(dividends, i)
-		}
-
-		p = 1
-		for _, dividend := range dividends {
-			p *= dividend
-		}
-		return
-	}()
 	return
 }
