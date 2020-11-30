@@ -45,7 +45,6 @@ func Permutations(n int64, r int64) (p int64, err error) {
 	}
 
 	dividends := make([]int64, 0)
-
 	for i := int64(n); i > dividerMax; i-- {
 		dividends = append(dividends, i)
 	}
