@@ -1,38 +1,41 @@
 package discrete
 
 import (
-	"errors"
 	"fmt"
-	"reflect"
+
+	"github.com/rs/zerolog/log"
 )
 
-func Factorial(n NonnegativeInteger) (f PositiveInteger, err error) {
-	if err = Validate(n); err != nil {
+func Factorial(n int64) (f int64, err error) {
+	if err = checkNonnegativeInteger(n); err != nil {
+		err = fmt.Errorf("error checking parameter n: %s", err.Error())
 		return
 	}
 
 	f = 1
+	for i := int64(2); i <= n; i++ {
 
-	pn := PositiveInteger(n)
-	if pn.IsValid() {
-
-		for i := PositiveInteger(2); i <= pn; i++ {
-
-			f *= i
-		}
+		f *= i
 	}
-
-	err = Validate(f)
 	return
 }
 
-func Permutations(n NonnegativeInteger, r NonnegativeInteger) (p PositiveInteger, err error) {
-	if err = Validate(n, r); err != nil {
+func Permutations(n int64, r int64) (p int64, err error) {
+	if err = checkNonnegativeInteger(n); err != nil {
+		err = fmt.Errorf("error checking parameter n: %s", err.Error())
+		log.Err(err)
+		return
+	}
+
+	if err = checkNonnegativeInteger(r); err != nil {
+		err = fmt.Errorf("error checking parameter r: %s", err.Error())
+		log.Err(err)
 		return
 	}
 
 	if r > n {
-		err = errors.New(fmt.Sprintf("%d > %d", r, n))
+		err = fmt.Errorf("error checking paramters: n{%d} must be greater than r{%d}", n, r)
+		log.Err(err)
 		return
 	}
 
@@ -41,33 +44,44 @@ func Permutations(n NonnegativeInteger, r NonnegativeInteger) (p PositiveInteger
 		return
 	}
 
-	p1, err := Factorial(n)
-	if err != nil {
+	if n-r == 0 || n-r == 1 {
+		p, err = Factorial(n)
 		return
 	}
 
-	if r == n || r == n-1 {
-		p = p1
-		return
+	dividends := make([]int64, 0)
+	dividers := make([]int64, 0)
+
+	for i := int64(n); i > 0; i-- {
+		dividends = append(dividends, i)
 	}
 
-	p2, err := Factorial(n - r)
-	if err != nil {
-		return
+	for i := int64(n - r); i > 0; i-- {
+		dividers = append(dividers, i)
 	}
 
-	p = p1 / p2
-	err = Validate(p)
-	return
-}
+	reducedDividends := make([]int64, 0)
 
-func IsElementOf(e Element, s Set) (ok bool) {
-
-	for _, se := range s {
-		if ok = reflect.ValueOf(se) == reflect.ValueOf(e); ok {
-			return
+	for _, dividend := range dividends {
+		contained := false
+		for _, divider := range dividers {
+			if divider == dividend {
+				contained = true
+				break
+			}
 		}
+
+		if !contained {
+			reducedDividends = append(reducedDividends, dividend)
+		}
+
+	}
+
+	p = 1
+	for _, d := range reducedDividends {
+		p *= d
 	}
 
 	return
+
 }

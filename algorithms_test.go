@@ -4,11 +4,11 @@ import "testing"
 
 func TestFactorial(t *testing.T) {
 
-	nlist := []NonnegativeInteger{8, -1, 3, 0, 7, 4, -5, -4, -20, 2}
+	nlist := []int64{8, -1, 3, 0, 7, 4, -5, -4, -20, 2}
 	for _, n := range nlist {
 		f, err := Factorial(n)
 		if err != nil {
-			if NegativeInteger(n).IsValid() {
+			if isNegativeInteger(n) {
 				t.Logf("Factorial(%d) = %d success catching error: %s", n, f, err)
 			} else {
 				t.Errorf("Factorial(%d) = %d error: %s", n, f, err)
@@ -19,8 +19,8 @@ func TestFactorial(t *testing.T) {
 	}
 
 	type inout struct {
-		in  NonnegativeInteger
-		out PositiveInteger
+		in  int64
+		out int64
 	}
 
 	iolist := []inout{{5, 120}, {6, 720}, {9, 362880}, {10, 3628800}}
@@ -39,9 +39,9 @@ func TestFactorial(t *testing.T) {
 func TestPermutations(t *testing.T) {
 
 	type permtest struct {
-		n NonnegativeInteger
-		r NonnegativeInteger
-		p PositiveInteger
+		n int64
+		r int64
+		p int64
 	}
 
 	permlist := []permtest{{10, 7, 604800}, {6, 6, 720}, {5, 4, 120}}
