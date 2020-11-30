@@ -6,7 +6,7 @@ import (
 
 // Factorial calcultes n! which equals 1 * 2 * 3 * ... * n
 func Factorial(n int64) (f int64, err error) {
-	if err = checkNonnegativeInteger("checking parameter n:", n); err != nil {
+	if err = checkNonnegativeInteger("checking parameter n", n); err != nil {
 		return
 	}
 
@@ -20,11 +20,11 @@ func Factorial(n int64) (f int64, err error) {
 
 // Permutations calcutes p permutations of n objects, taken r at a time: n! / (n - r)!
 func Permutations(n int64, r int64) (p int64, err error) {
-	if err = checkNonnegativeInteger("checking parameter n:", n); err != nil {
+	if err = checkNonnegativeInteger("checking parameter n", n); err != nil {
 		return
 	}
 
-	if err = checkNonnegativeInteger("checking parameter r:", r); err != nil {
+	if err = checkNonnegativeInteger("checking parameter r", r); err != nil {
 
 		return
 	}
