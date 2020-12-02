@@ -20,6 +20,10 @@ func isNonnegativeInteger(i int64) (ok bool) {
 	return i >= 0
 }
 
+func isEmptySet(s []interface{}) (ok bool) {
+	return len(s) == 0
+}
+
 func check(ok bool, msg string) (err error) {
 	if !ok {
 		err = fmt.Errorf(msg)

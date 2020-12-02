@@ -36,7 +36,7 @@ func TestFactorial(t *testing.T) {
 	}
 }
 
-func TestPermutations(t *testing.T) {
+func TestTotalPermutations(t *testing.T) {
 
 	type permtest struct {
 		n int64
@@ -46,7 +46,7 @@ func TestPermutations(t *testing.T) {
 
 	permlist := []permtest{{10, 7, 604800}, {6, 6, 720}, {5, 4, 120}}
 	for _, n := range permlist {
-		p, err := Permutations(n.n, n.r)
+		p, err := TotalPermutations(n.n, n.r)
 		if err != nil {
 			t.Errorf("P(%d, %d) = %d error: %s", n.n, n.r, p, err)
 		} else if p == n.p {

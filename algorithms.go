@@ -18,8 +18,9 @@ func Factorial(n int64) (f int64, err error) {
 	return
 }
 
-// Permutations calcutes p permutations of n objects, taken r at a time: n! / (n - r)!
-func Permutations(n int64, r int64) (p int64, err error) {
+// TotalPermutations calcutes p permutations of n objects, taken r at a time: n! / (n - r)!
+func TotalPermutations(n, r int64) (p int64, err error) {
+
 	if err = checkNonnegativeInteger("checking parameter n", n); err != nil {
 		return
 	}
@@ -44,14 +45,9 @@ func Permutations(n int64, r int64) (p int64, err error) {
 		return
 	}
 
-	dividends := make([]int64, 0)
-	for i := int64(n); i > dividerMax; i-- {
-		dividends = append(dividends, i)
-	}
-
 	p = 1
-	for _, dividend := range dividends {
-		p *= dividend
+	for i := n; i > dividerMax; i-- {
+		p *= i
 	}
 
 	return
