@@ -48,13 +48,34 @@ func TestTotalPermutations(t *testing.T) {
 	for _, n := range permlist {
 		p, err := TotalPermutations(n.n, n.r)
 		if err != nil {
-			t.Errorf("P(%d, %d) = %d error: %s", n.n, n.r, p, err)
+			t.Errorf("Permputation(%d, %d) = %d error: %s", n.n, n.r, p, err)
 		} else if p == n.p {
-			t.Logf("P(%d, %d) = %d success", n.n, n.r, n.p)
+			t.Logf("Permputation(%d, %d) = %d success", n.n, n.r, n.p)
 		} else {
-			t.Errorf("P(%d, %d) = %d should be %d", n.n, n.r, n.p, p)
+			t.Errorf("Permputation(%d, %d) = %d should be %d", n.n, n.r, n.p, p)
 		}
 
+	}
+
+}
+
+func TestPolynomial(t *testing.T) {
+
+	type testValues struct {
+		x float32
+		n uint8
+		p float64
+	}
+
+	successValues := []testValues{{1, 2, 1}, {2, 3, 8}}
+
+	for _, v := range successValues {
+		p := Polynomial(v.x, v.n)
+		if p == v.p {
+			t.Logf("pass: func Polynomial(%v, %v) -> %v == %v", v.x, v.n, p, v.p)
+		} else {
+			t.Errorf("fail: func Polynomial(%v, %v) -> %v != %v", v.x, v.n, p, v.p)
+		}
 	}
 
 }

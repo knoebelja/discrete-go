@@ -52,3 +52,14 @@ func TotalPermutations(n, r int64) (p int64, err error) {
 
 	return
 }
+
+// Polynomial computes p = x^n given float64 x and uint32 n,
+func Polynomial(x float32, n uint8) (p float64) {
+	xf64 := float64(x)
+	p = xf64
+
+	for k := uint8(1); k < n; k++ {
+		p *= xf64
+	}
+	return
+}

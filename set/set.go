@@ -2,15 +2,12 @@ package set
 
 import "reflect"
 
-// Element defintes anything included a set
-type Element interface{}
-
 // Set is an unordered list of unique Elements
-type Set *map[Element]bool
+type Set *map[interface{}]bool
 
 // New returns a Set of unique Elements
-func New(elements ...Element) (s Set) {
-	set := make(map[Element]bool)
+func New(elements ...interface{}) (s Set) {
+	set := make(map[interface{}]bool)
 	s = Set(&set)
 
 	for _, e := range elements {
@@ -21,7 +18,7 @@ func New(elements ...Element) (s Set) {
 }
 
 // IsElementOf checks if Element E is in Set S
-func IsElementOf(e Element, s Set) (ok bool) {
+func IsElementOf(e interface{}, s Set) (ok bool) {
 
 	for x := range *s {
 
@@ -71,7 +68,7 @@ func Cardinal(s Set) (c int) {
 }
 
 // Add adds the Element E to Set S if it does not contain E already
-func Add(e Element, s Set) (ok bool) {
+func Add(e interface{}, s Set) (ok bool) {
 	if IsElementOf(e, s) {
 		return
 	}

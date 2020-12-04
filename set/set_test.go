@@ -6,7 +6,7 @@ import (
 
 func TestIsElementOf(t *testing.T) {
 	type params struct {
-		e Element
+		e interface{}
 		s Set
 	}
 
@@ -22,7 +22,7 @@ func TestIsElementOf(t *testing.T) {
 	for _, s := range successes {
 
 		if ok := IsElementOf(s.e, s.s); ok {
-			t.Logf("success: %#v is element of %#v", &s.e, &s.s)
+			t.Logf("success: %#v is element of %#v", s.e, s.s)
 		} else {
 			t.Errorf("failure: %#v is element of %#v", s.e, s.s)
 		}
