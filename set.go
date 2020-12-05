@@ -1,6 +1,8 @@
 package discrete
 
-import "reflect"
+import (
+	"reflect"
+)
 
 // Set is an unordered list of unique Elements
 type Set *map[interface{}]bool
@@ -74,5 +76,14 @@ func Add(e interface{}, s Set) (ok bool) {
 	}
 	ok = true
 	(*s)[e] = true
+	return
+}
+
+// ListElements returns a slice of all elements in Set S in no particular order
+func ListElements(s Set) (elements []interface{}) {
+	elements = make([]interface{}, 0)
+	for e := range *s {
+		elements = append(elements, e)
+	}
 	return
 }

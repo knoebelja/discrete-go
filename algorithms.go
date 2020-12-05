@@ -63,3 +63,5 @@ func Polynomial(x float32, n uint8) (p float64) {
 	}
 	return
 }
+
+// EvaluatePolynomial computes

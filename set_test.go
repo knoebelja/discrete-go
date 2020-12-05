@@ -92,3 +92,40 @@ func TestEquals(t *testing.T) {
 	}
 
 }
+
+func TestElements(t *testing.T) {
+
+	set := New("4", 5, 2123123, 5234, 4234, 34, 34, 42, 34, 423, 42, 34, 234, "a")
+
+	feelslikeinfinity := 999999999999999999
+	equal := true
+	for equal && feelslikeinfinity > 0 {
+
+		e1 := ListElements(set)
+		e2 := ListElements(set)
+
+		if len(e1) != len(e2) {
+			t.Fatalf("fail: length of %v is not equal to length of %v", e1, e2)
+		}
+
+		for i := 0; i < len(e1); i++ {
+			if e1[i] != e2[i] {
+				equal = false
+				break
+			}
+
+		}
+
+		if equal {
+			t.Errorf("fail: order of %v == %v", e1, e2)
+		} else {
+			t.Logf("pass: order of %v != %v", e1, e2)
+		}
+
+	}
+
+	if equal {
+		t.Fatalf("fail: ListElements(%v) always equals %v", set, ListElements(set))
+	}
+
+}
