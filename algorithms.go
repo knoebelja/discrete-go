@@ -64,4 +64,16 @@ func Polynomial(x float32, n uint8) (p float64) {
 	return
 }
 
-// EvaluatePolynomial computes
+// EvaluatePolynomial computesa float64 A*x^n, where A is a Set of uint32, n is a uint32 and x is the length of Set A
+func EvaluatePolynomial(a []uint32, x float32) (s float64, err error) {
+	if len(a) == 0 {
+		err = fmt.Errorf("parameter a []uint32 must be of length greater than 0")
+		return
+	}
+
+	s = float64(a[0])
+	for k := 1; k < len(a); k++ {
+		s += float64(float32(a[k]) * x)
+	}
+	return
+}
