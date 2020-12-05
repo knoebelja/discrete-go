@@ -11,12 +11,12 @@ func TestIsElementOf(t *testing.T) {
 	}
 
 	successes := []params{
-		{"a", New("a")},
-		{struct{}{}, New(struct{}{})},
-		{New(New("a")), New(New(New("a")))},
-		{New(New(New("a"))), New(New(New(New("a"))))},
-		{New(1, New(New("a"), "b")), New(New(New("b", New("a")), 1))},
-		{-5, New("5", -5)},
+		{"a", NewSet("a")},
+		{struct{}{}, NewSet(struct{}{})},
+		{NewSet(NewSet("a")), NewSet(NewSet(NewSet("a")))},
+		{NewSet(NewSet(NewSet("a"))), NewSet(NewSet(NewSet(NewSet("a"))))},
+		{NewSet(1, NewSet(NewSet("a"), "b")), NewSet(NewSet(NewSet("b", NewSet("a")), 1))},
+		{-5, NewSet("5", -5)},
 	}
 
 	for _, s := range successes {
@@ -30,12 +30,12 @@ func TestIsElementOf(t *testing.T) {
 	}
 
 	failures := []params{
-		{1, New("a")},
-		{[]struct{}{}, New(struct{}{})},
-		{New(New("a")), New(New(New("a", "b")))},
-		{New(New(New("a"), New("b"))), New(New(New(New("a"))))},
-		{New(New(New(1))), New(New(New(New("a"))))},
-		{-5, New("-5", 5)},
+		{1, NewSet("a")},
+		{[]struct{}{}, NewSet(struct{}{})},
+		{NewSet(NewSet("a")), NewSet(NewSet(NewSet("a", "b")))},
+		{NewSet(NewSet(NewSet("a"), NewSet("b"))), NewSet(NewSet(NewSet(NewSet("a"))))},
+		{NewSet(NewSet(NewSet(1))), NewSet(NewSet(NewSet(NewSet("a"))))},
+		{-5, NewSet("-5", 5)},
 	}
 
 	for _, f := range failures {
@@ -59,10 +59,10 @@ func TestEquals(t *testing.T) {
 	}
 
 	successes := []params{
-		{New(), New()},
-		{New(3, 2, 1), New(1, 2, 3)},
-		{New("a", "a"), New("a")},
-		{New("a", New("a"), New("a", New("b"))), New(New(New("b"), "a"), New("a"), "a")},
+		{NewSet(), NewSet()},
+		{NewSet(3, 2, 1), NewSet(1, 2, 3)},
+		{NewSet("a", "a"), NewSet("a")},
+		{NewSet("a", NewSet("a"), NewSet("a", NewSet("b"))), NewSet(NewSet(NewSet("b"), "a"), NewSet("a"), "a")},
 	}
 
 	for _, s := range successes {
@@ -76,10 +76,10 @@ func TestEquals(t *testing.T) {
 	}
 
 	failures := []params{
-		{New(), New(New())},
-		{New("a"), New("b")},
-		{New("a", New("a"), New("a", New("b"))), New(New(New("b"), "a"), New("a"), "z")},
-		{New("a", New("a"), New("a", New("b"))), New(New(New("z"), "a"), New("a"), "a")},
+		{NewSet(), NewSet(NewSet())},
+		{NewSet("a"), NewSet("b")},
+		{NewSet("a", NewSet("a"), NewSet("a", NewSet("b"))), NewSet(NewSet(NewSet("b"), "a"), NewSet("a"), "z")},
+		{NewSet("a", NewSet("a"), NewSet("a", NewSet("b"))), NewSet(NewSet(NewSet("z"), "a"), NewSet("a"), "a")},
 	}
 
 	for _, f := range failures {
@@ -95,7 +95,7 @@ func TestEquals(t *testing.T) {
 
 func TestElements(t *testing.T) {
 
-	set := New("4", 5, 2123123, 5234, 4234, 34, 34, 42, 34, 423, 42, 34, 234, "a")
+	set := NewSet("4", 5, 2123123, NewSet("a"), 5234, 4234, 34, 34, 42, 34, 423, 42, 34, 234, "a")
 
 	feelslikeinfinity := 999999999999999999
 	equal := true

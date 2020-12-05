@@ -7,8 +7,8 @@ import (
 // Set is an unordered list of unique Elements
 type Set *map[interface{}]bool
 
-// New returns a Set of unique Elements
-func New(elements ...interface{}) (s Set) {
+// NewSet returns a Set of unique Elements
+func NewSet(elements ...interface{}) (s Set) {
 	set := make(map[interface{}]bool)
 	s = Set(&set)
 
