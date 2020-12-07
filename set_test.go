@@ -117,7 +117,7 @@ func TestElements(t *testing.T) {
 		}
 
 		if equal {
-			t.Errorf("fail: order of %v == %v", e1, e2)
+			t.Logf("warn: order of %v == %v", e1, e2)
 		} else {
 			t.Logf("pass: order of %v != %v", e1, e2)
 		}
@@ -125,7 +125,7 @@ func TestElements(t *testing.T) {
 	}
 
 	if equal {
-		t.Fatalf("fail: ListElements(%v) always equals %v", set, ListElements(set))
+		t.Errorf("fail: ListElements(%v) always equals %v", set, ListElements(set))
 	}
 
 }
