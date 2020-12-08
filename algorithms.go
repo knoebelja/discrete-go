@@ -103,9 +103,9 @@ func NextSubset(a string) (z string, err error) {
 	return
 }
 
-type CompareFunction func(x, y int) (ok bool)
+type Compare func(x, y int) (ok bool)
 
-func BubbleSort(s []int, cf CompareFunction) (b []int) {
+func BubbleSort(s []int, cf Compare) (b []int) {
 
 	j := 1
 	n := len(s)
