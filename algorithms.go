@@ -103,22 +103,23 @@ func NextSubset(a string) (z string, err error) {
 	return
 }
 
+// Compare determines the validity of an asserted relationship between 2 int values.
+// ie. If F(x, y) returns x < y then F(1, 2) returns true; F(2, 1) returns false.
 type Compare func(x, y int) (ok bool)
 
-func BubbleSort(s []int, cf Compare) (b []int) {
+// BubbleSort mutates s []int so that for all s[0], s[1], ..., s[n-1], s[n] Compare(s[k-1], s[k]) is true
+func BubbleSort(s []int, c Compare) {
 
 	j := 1
 	n := len(s)
 	for j < n {
 		for k := n - 1; k >= j; k-- {
-			if cf(s[k+1], s[k]) {
+			if c(s[k+1], s[k]) {
 				placeholder := s[k+1]
 				s[k+1] = s[k]
 				s[k] = placeholder
 			}
 		}
 	}
-
-	b = s
 	return
 }
