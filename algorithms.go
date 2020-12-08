@@ -102,3 +102,23 @@ func NextSubset(a string) (z string, err error) {
 
 	return
 }
+
+type CompareFunction func(x, y int) (ok bool)
+
+func BubbleSort(s []int, cf CompareFunction) (b []int) {
+
+	j := 1
+	n := len(s)
+	for j < n {
+		for k := n - 1; k >= j; k-- {
+			if cf(s[k+1], s[k]) {
+				placeholder := s[k+1]
+				s[k+1] = s[k]
+				s[k] = placeholder
+			}
+		}
+	}
+
+	b = s
+	return
+}
