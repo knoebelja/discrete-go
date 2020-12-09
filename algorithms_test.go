@@ -77,3 +77,22 @@ func TestNextSubset(t *testing.T) {
 	}
 
 }
+
+func TestBubbleSort(t *testing.T) {
+
+	c1 := Compare(func(x, y int) bool {
+		return x > y
+	})
+
+	c2 := Compare(func(x, y int) bool {
+		return x < y
+	})
+
+	s := []int{0, 5, 8, 2, -7, 8, 12}
+	t.Logf("%v", s)
+	BubbleSort(s, c1)
+	t.Logf("%v", s)
+	BubbleSort(s, c2)
+	t.Logf("%v", s)
+
+}

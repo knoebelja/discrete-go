@@ -109,10 +109,8 @@ type Compare func(x, y int) (ok bool)
 
 // BubbleSort mutates s []int so that for all s[0], s[1], ..., s[n-1], s[n] Compare(s[k-1], s[k]) is true
 func BubbleSort(s []int, c Compare) {
-
-	j := 1
-	n := len(s)
-	for j < n {
+	n := len(s) - 1
+	for j := 0; j < n; j++ {
 		for k := n - 1; k >= j; k-- {
 			if c(s[k+1], s[k]) {
 				placeholder := s[k+1]
