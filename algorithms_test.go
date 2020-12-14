@@ -1,18 +1,14 @@
 package discrete
 
 import (
-	"testing"
-
 	"gopkg.in/check.v1"
 )
 
-func Test(t *testing.T) { check.TestingT(t) }
+type AlgorithmSuite struct{}
 
-type S struct{}
+var _ = check.Suite(&AlgorithmSuite{})
 
-var _ = check.Suite(&S{})
-
-func (s *S) TestFactorial(c *check.C) {
+func (s *AlgorithmSuite) TestFactorial(c *check.C) {
 
 	type io struct{ n, f uint }
 
@@ -24,7 +20,7 @@ func (s *S) TestFactorial(c *check.C) {
 	}
 }
 
-func (s *S) TestTotalPermutations(c *check.C) {
+func (s *AlgorithmSuite) TestTotalPermutations(c *check.C) {
 
 	type io struct{ n, r, p uint }
 
@@ -41,10 +37,10 @@ func (s *S) TestTotalPermutations(c *check.C) {
 
 }
 
-func (s *S) TestPower(c *check.C) {
+func (s *AlgorithmSuite) TestPower(c *check.C) {
 
 	type io struct {
-		x float32
+		x float64
 		n uint
 		s float64
 	}
@@ -58,7 +54,7 @@ func (s *S) TestPower(c *check.C) {
 
 }
 
-func (s *S) TestNextSubset(c *check.C) {
+func (s *AlgorithmSuite) TestNextSubset(c *check.C) {
 
 	type io struct{ a, z string }
 	values := []io{{"0", "1"}, {"1001", "1010"}, {"010", "011"}, {"10011", "10100"}, {"100", "101"}, {"1110", "1111"}, {"111", ""}, {"", ""}, {"01010BANANANA", ""}}
@@ -75,7 +71,7 @@ func (s *S) TestNextSubset(c *check.C) {
 
 }
 
-func (s *S) TestPrintNextSubset(c *check.C) {
+func (s *AlgorithmSuite) TestPrintNextSubset(c *check.C) {
 
 	var subset string = "0000000"
 	var err error
@@ -93,7 +89,7 @@ func (s *S) TestPrintNextSubset(c *check.C) {
 	c.Logf("subsets = %v", subsets)
 }
 
-func (s *S) TestBubbleSort(c *check.C) {
+func (s *AlgorithmSuite) TestBubbleSort(c *check.C) {
 
 	sort := []int{0, 5, 8, 2, -7, 8, 12}
 	c.Logf("no sort => %+v", sort)

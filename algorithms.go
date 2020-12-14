@@ -40,12 +40,10 @@ func TotalPermutations(n, r uint) (p uint, err error) {
 }
 
 // Power computes p = x^n given float64 x and uint n,
-func Power(x float32, n uint) (s float64) {
-	xf64 := float64(x)
-	s = xf64
-
+func Power(x float64, n uint) (s float64) {
+	s = x
 	for k := uint(1); k < n; k++ {
-		s *= xf64
+		s *= x
 	}
 	return
 }
