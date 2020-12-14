@@ -50,21 +50,6 @@ func Power(x float32, n uint) (s float64) {
 	return
 }
 
-// Polynomial computes  a0*x^0 + a1*x^2 + ... an*x^n where n is length of a []uint and x is a float32
-func Polynomial(a []uint, x float32) (s float64) {
-	if len(a) == 0 {
-		return
-	}
-
-	xf64 := float64(x)
-	s = float64(a[0])
-
-	for k := 1; k < len(a); k++ {
-		s += float64(a[k]) * xf64
-	}
-	return
-}
-
 // NextSubset given a string of 0's and 1's representing a subset, gives the next subset from 000...0 to 111...1
 func NextSubset(a string) (z string, err error) {
 	for _, r := range a {
