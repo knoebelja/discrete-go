@@ -1,98 +1,119 @@
 package discrete
 
-import "testing"
+import (
+	"testing"
 
-func TestFactorial(t *testing.T) {
+	"gopkg.in/check.v1"
+)
 
-	type io struct{ in, out uint }
+func Test(t *testing.T) { check.TestingT(t) }
+
+type S struct{}
+
+var _ = check.Suite(&S{})
+
+func (s *S) TestFactorial(c *check.C) {
+
+	type io struct{ n, f uint }
 
 	values := []io{{0, 1}, {1, 1}, {2, 2}, {3, 6}, {4, 24}, {5, 120}, {6, 720}, {9, 362880}, {10, 3628800}}
-	for _, n := range values {
-		if f := Factorial(n.in); f != n.out {
-			t.Errorf("fail: Factorial(%d) -> %d != %d", n.in, f, n.out)
-		} else {
-			t.Logf("pass: Factorial(%d) -> %d == %d", n.in, f, n.out)
-		}
+	for _, v := range values {
+		f := Factorial(v.n)
+		c.Logf("Factorial(n: %d) => (f: %d)", v.n, f)
+		c.Check(f, check.Equals, v.f)
 	}
 }
 
-func TestTotalPermutations(t *testing.T) {
+func (s *S) TestTotalPermutations(c *check.C) {
 
 	type io struct{ n, r, p uint }
 
-	values := []io{{10, 7, 604800}, {6, 6, 720}, {5, 4, 120}}
-	for _, n := range values {
-		p, err := TotalPermutations(n.n, n.r)
+	values := []io{{10, 7, 604800}, {6, 6, 720}, {5, 4, 120}, {4, 5, 120}}
+	for _, v := range values {
+		p, err := TotalPermutations(v.n, v.r)
+		c.Logf("TotalPermutations(n: %d, r: %d) => (p: %d, err: %+v)", v.n, v.r, p, err)
 		if err != nil {
-			t.Errorf("fail: TotalPermutations(%d, %d) -> %s != nil", n.n, n.r, err)
-		} else if p == n.p {
-			t.Logf("pass: TotalPermputation(%d, %d) -> %d == %d", n.n, n.r, p, n.p)
+			c.Check(err, check.ErrorMatches, "error:.+")
 		} else {
-			t.Errorf("fail: TotalPermputation(%d, %d) -> %d != %d", n.n, n.r, p, n.p)
+			c.Check(p, check.Equals, v.p)
 		}
-
 	}
 
 }
 
-func TestExponential(t *testing.T) {
+func (s *S) TestPower(c *check.C) {
 
 	type io struct {
 		x float32
 		n uint
-		p float64
+		s float64
 	}
 
 	values := []io{{1, 2, 1}, {2, 3, 8}}
-
 	for _, v := range values {
-		p := Exponential(v.x, v.n)
-		if p == v.p {
-			t.Logf("pass: Polynomial(%v, %v) -> %v == %v", v.x, v.n, p, v.p)
-		} else {
-			t.Errorf("fail: Polynomial(%v, %v) -> %v != %v", v.x, v.n, p, v.p)
-		}
+		s := Power(v.x, v.n)
+		c.Logf("Power(x: %+v, n: %+v) => (s: %+v)", v.x, v.n, s)
+		c.Check(v.s, check.Equals, s)
 	}
 
 }
 
-// func TestPolynomial(t *testing.T) {
+func (s *S) TestNextSubset(c *check.C) {
 
-// }
-
-func TestNextSubset(t *testing.T) {
-
-	type io struct{ in, out string }
-	values := []io{{"0", "1"}, {"1001", "1010"}, {"010", "011"}, {"10011", "10100"}, {"100", "101"}, {"1110", "1111"}, {"111", ""}}
+	type io struct{ a, z string }
+	values := []io{{"0", "1"}, {"1001", "1010"}, {"010", "011"}, {"10011", "10100"}, {"100", "101"}, {"1110", "1111"}, {"111", ""}, {"", ""}, {"01010BANANANA", ""}}
 
 	for _, v := range values {
-		z, err := NextSubset(v.in)
+		z, err := NextSubset(v.a)
+		c.Logf("NextSubset(a: %s) => (z: %s, err: %+v)", v.a, z, err)
 		if err != nil {
-			t.Errorf("fail: NextSubset(%s) -> %d != nil", v.in, err)
-		} else if v.out != z {
-			t.Logf("fail: NextSubset(%s) -> %s != %s", v.in, v.out, z)
+			c.Check(err, check.ErrorMatches, "error: .+")
 		} else {
-			t.Logf("pass: NextSubset(%s) -> %s == %s", v.in, v.out, z)
+			c.Check(z, check.Equals, v.z)
 		}
 	}
 
 }
 
-func TestBubbleSort(t *testing.T) {
+func (s *S) TestPrintNextSubset(c *check.C) {
 
-	c1 := Compare(func(x, y int) bool {
-		return x > y
+	var subset string = "0000000"
+	var err error
+	subsets := make([]string, 0)
+	subsets = append(subsets, subset)
+
+	for subset != "" {
+		subset, err = NextSubset(subset)
+		if err != nil {
+			c.Fatal(err)
+		}
+		subsets = append(subsets, subset)
+	}
+
+	c.Logf("subsets = %v", subsets)
+}
+
+func (s *S) TestBubbleSort(c *check.C) {
+
+	sort := []int{0, 5, 8, 2, -7, 8, 12}
+	c.Logf("no sort => %+v", sort)
+
+	c1 := Compare(func(x0, x1 int) bool {
+		return x0 > x1
 	})
 
-	c2 := Compare(func(x, y int) bool {
-		return x < y
+	BubbleSort(sort, c1)
+	c.Logf("greater than => %+v", sort)
+	greater := []int{12, 8, 8, 5, 2, 0, -7}
+	c.Check(sort, check.DeepEquals, greater)
+
+	c2 := Compare(func(x0, x1 int) bool {
+		return x0 < x1
 	})
 
-	s := []int{0, 5, 8, 2, -7, 8, 12}
-	t.Logf("%v", s)
-	BubbleSort(s, c1)
-	t.Logf("%v", s)
-	BubbleSort(s, c2)
-	t.Logf("%v", s)
+	BubbleSort(sort, c2)
+	c.Logf("less than => %+v", sort)
+	less := []int{-7, 0, 2, 5, 8, 8, 12}
+	c.Check(sort, check.DeepEquals, less)
 
 }

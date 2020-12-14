@@ -15,8 +15,8 @@ func Factorial(n uint) (f uint) {
 // TotalPermutations calcutes p permutations of n objects, taken r at a time: n! / (n - r)!
 func TotalPermutations(n, r uint) (p uint, err error) {
 
-	if r > n {
-		err = fmt.Errorf("error: evaluating parameters r uint > n uint where %d > %d must be false", r, n)
+	if !(n >= r) {
+		err = fmt.Errorf("error: parameters n %d >= r %d != true", n, r)
 		return
 	}
 
@@ -39,8 +39,8 @@ func TotalPermutations(n, r uint) (p uint, err error) {
 	return
 }
 
-// Exponential computes p = x^n given float64 x and uint n,
-func Exponential(x float32, n uint) (s float64) {
+// Power computes p = x^n given float64 x and uint n,
+func Power(x float32, n uint) (s float64) {
 	xf64 := float64(x)
 	s = xf64
 
@@ -50,10 +50,9 @@ func Exponential(x float32, n uint) (s float64) {
 	return
 }
 
-// PolynomialEvaluation computes float64 A*x^n, where A is a Set of uint, n is a uint and x is the length of Set A
-func PolynomialEvaluation(a []uint, x float32) (s float64, err error) {
+// Polynomial computes  a0*x^0 + a1*x^2 + ... an*x^n where n is length of a []uint and x is a float32
+func Polynomial(a []uint, x float32) (s float64) {
 	if len(a) == 0 {
-		err = fmt.Errorf("error: a []uint must be of length greater than 0")
 		return
 	}
 
@@ -70,14 +69,14 @@ func PolynomialEvaluation(a []uint, x float32) (s float64, err error) {
 func NextSubset(a string) (z string, err error) {
 	for _, r := range a {
 		if r != '0' && r != '1' {
-			err = fmt.Errorf("error: NextSubset(a string) accepts only a string of 0's and 1s")
+			err = fmt.Errorf("error: parameter a string contains characters that are not 0 or 1")
 			return
 		}
 	}
 
 	n := len(a)
 	if n == 0 {
-		err = fmt.Errorf("error: NextSubset(a string) requires a string of length 1 or greater")
+		err = fmt.Errorf("error: parameter a string must have length greater than 0")
 		return
 	}
 
@@ -112,7 +111,7 @@ func BubbleSort(s []int, c Compare) {
 	n := len(s) - 1
 	for j := 0; j < n; j++ {
 		for k := n - 1; k >= j; k-- {
-			if c(s[k+1], s[k]) {
+			if !c(s[k], s[k+1]) {
 				placeholder := s[k+1]
 				s[k+1] = s[k]
 				s[k] = placeholder
